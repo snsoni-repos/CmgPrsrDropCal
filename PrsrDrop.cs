@@ -7,16 +7,51 @@ using System.Threading.Tasks;
 
 
 namespace CmgPrsrDropCal
-{ 
-    
+{
+
+    public class Indata
+    {
+
+        public double inletPrsr;
+        public double inletOilRate;
+        public double inletWaterRate;
+        public double inletGasRate;
+        public double pipeId;
+        public double pipeLength;
+        public double incliantion;
+        public double oilVis;
+        public double gasVis;
+        public double waterVis;
+
+
+    }
+
+    public class Outdata
+    {
+
+        public double TotaPressureGradient;
+        public double FrictionGradient;
+        public double GraivityGradient;
+        public double TotalPressureDrop;
+        public string ErrorMessage = string.Empty;
+
+
+    }
+
     public class PrsrDrop
     {
 
         private string mErrMsg;
+        private Outdata mOutdata;
+
+        
+
 
         public PrsrDrop()
         {
             mErrMsg = string.Empty;
+            mOutdata = new Outdata();
+
         }
 
         public double inletPrsr { get; set; }
@@ -59,7 +94,7 @@ namespace CmgPrsrDropCal
         // Pressure drop calculation
 
 
-        public bool RunPressDropCal()
+        public Outdata RunPressDropCal()
         {
             bool isRunOk = true;
 
@@ -156,28 +191,14 @@ namespace CmgPrsrDropCal
 
                 pressureDrop = totalGrad* pipeLength;
 
-                // Calculate homogeneous model variables
-                ////double Vm = Vsl + Vsg;
-                ////double lambdaL = Vsl / Vm;
-                //double rhoNs = rhoL * lambdaL + rhoG * (1 - lambdaL);
-                //double muNs = muL * lambdaL + muG * (1 - lambdaL);
 
-                //// Calculate dimensionless Reynolds number
-                //double NRey = (rhoNs * Vm * D) / muNs;
+                // Assign the results
 
-                //// Calculate friction factor
-                //double f = 0.0056 + 0.5 * Math.Pow(NRey, -0.32);
-
-                //// Calculate pressure drop using Darcy-Weisbach equation
-                //double pd = f * (L / D) * (rhoNs * Math.Pow(Vm, 2)) / 2;
-
-
-
-               // pressureDrop = pd;
-
-
-
-                // mErrMsg += "No Error";
+                mOutdata.FrictionGradient = frictionGrad;
+                mOutdata.GraivityGradient = gravityGrad;
+                mOutdata.TotaPressureGradient = totalGrad;
+                mOutdata.TotalPressureDrop = pressureDrop;
+                mOutdata.ErrorMessage = mErrMsg;
 
             }
             catch (Exception ex)
@@ -185,11 +206,12 @@ namespace CmgPrsrDropCal
                 isRunOk = false;
                 Console.WriteLine(ex.Message.ToString());
                 mErrMsg += ex.Message.ToString();
+                mOutdata.ErrorMessage += mErrMsg;
 
             }
 
             erroMsg = mErrMsg;
-            return isRunOk;
+            return mOutdata;
             ;
         }
 

@@ -13,11 +13,11 @@ namespace CmgPrsrDropCal
         private void button1_Click(object sender, EventArgs e)
         {
             PrsrDrop pdClass = new PrsrDrop();
-
+            dal dalCls = new dal();
 
             // Read the file 
 
-
+            Indata mIndata = dalCls.ReadDataFromTextFile();
 
 
             // set the user input properties
@@ -28,11 +28,16 @@ namespace CmgPrsrDropCal
 
             // Call the pressure drop calculation method
 
-            pdClass.RunPressDropCal();
+           Outdata mOutdata =  pdClass.RunPressDropCal();
 
             //pdClass.GetLiquidHoldup(10000, 10, 1.197, 0.0091, 281, 6);
-                
-            // Get the results and  write it to the file 
+
+            //------------- Get the results and  write it to the file 
+            dalCls.WriteDataToTextFile(mOutdata);
+
+
+
+
         }
 
         private void btnFileDialog_Click(object sender, EventArgs e)
