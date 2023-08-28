@@ -34,6 +34,7 @@ namespace CmgPrsrDropCal
         public double FrictionGradient;
         public double GraivityGradient;
         public double TotalPressureDrop;
+        public double OutletPressure;
         public string ErrorMessage = string.Empty;
 
 
@@ -44,7 +45,6 @@ namespace CmgPrsrDropCal
 
         private string mErrMsg;
         private Outdata mOutdata;
-
         
 
         //SS:---- Constructor ------
@@ -53,9 +53,7 @@ namespace CmgPrsrDropCal
             mErrMsg = string.Empty;
             mOutdata = new Outdata();
 
-        }
-
-       
+        }       
 
         //SS:-------- Output variables
         public double pressureDrop { get; set; }
@@ -100,8 +98,8 @@ namespace CmgPrsrDropCal
                 rhoL = rhoO * fo + rhoW * (1 - fo);
                 rhoNs = rhoL * lamdaL + rhoG * (1 - lamdaL);
 
-                muO = mIndata.oilVis;  // Assuming oil viscosity in cP
-                muW = mIndata.waterVis;  // Assuming water viscosity in cP
+                muO = mIndata.oilVis; 
+                muW = mIndata.waterVis; 
                 muL = muO * fo + muW * (1 - fo);
                 muG = mIndata.gasVis;
                 muNs = muL * lamdaL + muG * (1 - lamdaL);
@@ -124,10 +122,11 @@ namespace CmgPrsrDropCal
 
                 //SS:----- Assign the results
 
-                mOutdata.FrictionGradient = frictionGrad;
-                mOutdata.GraivityGradient = gravityGrad;
-                mOutdata.TotaPressureGradient = totalGrad;
-                mOutdata.TotalPressureDrop = pressureDrop;
+                mOutdata.FrictionGradient = Math.Round(frictionGrad/144,4);
+                mOutdata.GraivityGradient = Math.Round(gravityGrad/144,4);
+                mOutdata.TotaPressureGradient = Math.Round(totalGrad,4);
+                mOutdata.TotalPressureDrop = Math.Round(pressureDrop,2);
+                mOutdata.OutletPressure = Math.Round(mIndata.inletPrsr - pressureDrop,2);
                 mOutdata.ErrorMessage = mErrMsg;
 
             }
@@ -144,30 +143,6 @@ namespace CmgPrsrDropCal
             
         }
 
-
-
-
-        //public void getDefaultInputData()
-        //{
-        //    inletPrsr = 7239540 * 0.000145; // in psi
-        //    inletOilRate = 158.99 * 6.2898106;// in stb/d
-        //    inletWaterRate = 0.0 * 6.2898106; // in stb/d
-        //    inletGasRate = 28316.85 * 35.3147248/1000000 ;  ///28316.85; in MMscf/d
-        //    pipeId = 0.050673 * 39.3700787; // in inch
-        //    pipeLength = 152.4 * 3.2808399; // in feet
-        //    incliantion = 30;
-        //    oilVis = 0.002 * 1000; // in Cp
-        //    gasVis = 0.000015 * 1000;// in Cp
-        //    waterVis = 0.001 * 1000;// in Cp
-
-        //}
-
-
-
-
     }
-
-
-
 
 }
