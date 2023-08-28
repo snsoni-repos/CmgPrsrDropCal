@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             btnRun = new Button();
-            textBox1 = new TextBox();
+            txbFilepath = new TextBox();
             btnFileDialog = new Button();
             openFileDia = new OpenFileDialog();
             SuspendLayout();
@@ -44,12 +44,13 @@
             btnRun.UseVisualStyleBackColor = true;
             btnRun.Click += button1_Click;
             // 
-            // textBox1
+            // txbFilepath
             // 
-            textBox1.Location = new Point(60, 34);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(465, 27);
-            textBox1.TabIndex = 1;
+            txbFilepath.Location = new Point(60, 34);
+            txbFilepath.Name = "txbFilepath";
+            txbFilepath.Size = new Size(465, 27);
+            txbFilepath.TabIndex = 1;
+//            txbFilepath.TextChanged += textBox1_TextChanged;
             // 
             // btnFileDialog
             // 
@@ -64,17 +65,17 @@
             // openFileDia
             // 
             openFileDia.FileName = "openFileDia";
-            openFileDia.FileOk += openFileDia_FileOk;
+            //openFileDia.FileOk += openFileDia_FileOk;
             // 
-            // Form1
+            // FormGui
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(880, 524);
             Controls.Add(btnFileDialog);
-            Controls.Add(textBox1);
+            Controls.Add(txbFilepath);
             Controls.Add(btnRun);
-            Name = "Form1";
+            Name = "FormGui";
             Text = "Pressure Drop Calculator";
             Load += Form1_Load;
             ResumeLayout(false);
@@ -84,7 +85,7 @@
         #endregion
 
         private Button btnRun;
-        private TextBox textBox1;
+        private TextBox txbFilepath;
         private Button btnFileDialog;
         private OpenFileDialog openFileDia;
     }
