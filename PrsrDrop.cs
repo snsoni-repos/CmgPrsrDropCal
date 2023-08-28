@@ -47,7 +47,7 @@ namespace CmgPrsrDropCal
 
         
 
-
+        //SS:---- Constructor ------
         public PrsrDrop()
         {
             mErrMsg = string.Empty;
@@ -55,46 +55,15 @@ namespace CmgPrsrDropCal
 
         }
 
-        //public double inletPrsr { get; set; }
-        //public double inletOilRate { get; set; }
-        //public double inletWaterRate { get; set; }
-        //public double inletGasRate { get; set; }
-        //public double pipeId { get; set; }
-        //public double pipeLength { get; set; }
-        //public double incliantion { get; set; }
-        //public double oilVis { get; set; }
-        //public double gasVis { get; set; }
-        //public double waterVis { get; set; }
+       
 
-
-        // Output variables
+        //SS:-------- Output variables
         public double pressureDrop { get; set; }
         public string erroMsg { get; set; }
 
 
 
-
-
-
-        //public void getDefaultInputData()
-        //{
-        //    inletPrsr = 7239540 * 0.000145; // in psi
-        //    inletOilRate = 158.99 * 6.2898106;// in stb/d
-        //    inletWaterRate = 0.0 * 6.2898106; // in stb/d
-        //    inletGasRate = 28316.85 * 35.3147248/1000000 ;  ///28316.85; in MMscf/d
-        //    pipeId = 0.050673 * 39.3700787; // in inch
-        //    pipeLength = 152.4 * 3.2808399; // in feet
-        //    incliantion = 30;
-        //    oilVis = 0.002 * 1000; // in Cp
-        //    gasVis = 0.000015 * 1000;// in Cp
-        //    waterVis = 0.001 * 1000;// in Cp
-
-        //}
-
-
-        // Pressure drop calculation
-
-
+        //SS:--------------------- Pressure drop calculation ----------------
         public Outdata RunPressDropCal(Indata mIndata)
         {
             double rs, bo, bg, area, qo, qw, ql, vsl, vm, qg, vsg, lamdaL;
@@ -177,122 +146,28 @@ namespace CmgPrsrDropCal
 
 
 
-        //public double GetLiquidHoldup(double qosc,double qgsc, double bo, double bg, double rs, double pipeId)
 
+        //public void getDefaultInputData()
         //{
-        //    double lamdaL = 0.0;
-        //    double area,ql, qg, qo,qw;
-        //    double vsl, vsg, vm;
+        //    inletPrsr = 7239540 * 0.000145; // in psi
+        //    inletOilRate = 158.99 * 6.2898106;// in stb/d
+        //    inletWaterRate = 0.0 * 6.2898106; // in stb/d
+        //    inletGasRate = 28316.85 * 35.3147248/1000000 ;  ///28316.85; in MMscf/d
+        //    pipeId = 0.050673 * 39.3700787; // in inch
+        //    pipeLength = 152.4 * 3.2808399; // in feet
+        //    incliantion = 30;
+        //    oilVis = 0.002 * 1000; // in Cp
+        //    gasVis = 0.000015 * 1000;// in Cp
+        //    waterVis = 0.001 * 1000;// in Cp
 
-        //    try
-        //    {
-        //        area = 0.7854 * Math.Pow((pipeId/12),2);
-        //        qo = (qosc * bo * 5.614) / 86400;
-        //        qw = 0.00;
-        //        ql = qo + qw;
-
-
-        //        vsl = ql / area;
-
-        //        qg = ((qgsc *1000000 - (qosc * rs)) * bg)/86400;
-
-        //        vsg = qg / area;
-
-        //        vm = vsl + vsg;
-
-        //        lamdaL = ql / (ql + qg);
-
-
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        mErrMsg += "Error at calculating the liquid hold up";
-        //    }
-
-        //    return lamdaL;
         //}
-
-
-        //**************************************** Extra Code ************************
-
-        //public bool RunPressDropCal_v0()
-        //{
-        //    bool isRunOk = true;
-
-
-        //    try
-        //    {
-
-        //        // Calculate correlations
-        //        double P = inletPrsr;
-        //        double D = pipeId;  // feet
-        //        double L = pipeLength;
-
-        //        double area = Math.PI * Math.Pow(D / 2, 2);
-        //        double Rs = 0.0461 * Math.Pow(P, 1.205);
-        //        double Bo = 0.972 + Math.Pow(Rs * 0.00048 + 0.1026, 1.175);
-        //        double Bg = 16 / P;
-        //        double rhoO = (53.04 + 0.01254 * Rs) / Bo;
-        //        double rhoG = 0.0028 * P;
-        //        double rhoW = 62.4;
-        //        double fo = inletOilRate / (inletOilRate + inletWaterRate);
-        //        double rhoL = rhoO * fo + rhoW * (1 - fo);
-        //        double muO = oilVis;  // Assuming oil viscosity in cP
-        //        double muW = waterVis;  // Assuming water viscosity in cP
-        //        double muL = muO * fo + muW * (1 - fo);
-        //        double muG = gasVis;
-
-        //        double Vso = inletOilRate * Bo / area;
-        //        double Vsw = inletWaterRate / area;
-        //        double Vsl = Vso * fo + Vsw * (1 - fo);
-        //        double GOR = inletGasRate / inletOilRate;
-        //        double Vsg = inletOilRate * (GOR - Rs) * Bg / area;
-
-        //        // Calculate homogeneous model variables
-        //        double Vm = Vsl + Vsg;
-        //        double lambdaL = Vsl / Vm;
-        //        double rhoNs = rhoL * lambdaL + rhoG * (1 - lambdaL);
-        //        double muNs = muL * lambdaL + muG * (1 - lambdaL);
-
-        //        // Calculate dimensionless Reynolds number
-        //        double NRey = (rhoNs * Vm * D) / muNs;
-
-        //        // Calculate friction factor
-        //        double f = 0.0056 + 0.5 * Math.Pow(NRey, -0.32);
-
-        //        // Calculate pressure drop using Darcy-Weisbach equation
-        //        double pd = f * (L / D) * (rhoNs * Math.Pow(Vm, 2)) / 2;
-
-
-
-        //        pressureDrop = pd;
-
-
-
-        //        mErrMsg += "No Error";
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        isRunOk = false;
-        //        Console.WriteLine(ex.Message.ToString());
-        //        mErrMsg += ex.Message.ToString();
-
-        //    }
-
-        //    erroMsg = mErrMsg;
-        //    return isRunOk;
-        //    ;
-        //}
-
 
 
 
 
     }
 
-   
+
 
 
 }
